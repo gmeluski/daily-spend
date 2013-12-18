@@ -34,6 +34,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/spend', routes.spend);
 app.get('/users', user.list);
 app.get('/spend', routes.spend);
 
