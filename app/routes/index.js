@@ -8,5 +8,5 @@ exports.index = function(req, res){
 };
 
 exports.spend = function(req, res) {
-    res.render('index', { title: '30' });
+    res.render('spend', { title: '30' });
 }; 
