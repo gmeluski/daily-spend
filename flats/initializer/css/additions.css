@@ -5,6 +5,8 @@ body, html {
   text-align: center;
   background: #c0c0c0;
   border: #a0a0a0 solid 1px; }
+  .block.overlay {
+    background: #fff; }
 
 .block:before {
   content: '';
@@ -23,6 +25,9 @@ body, html {
   padding: 22px 23px 22px 23px;
   border: #a0a0a0 solid 1px;
   background: #f5f5f5; }
+  .overlay .centered {
+    border: 0;
+    background: transparent; }
 
 .product h1 {
   color: #BE574C;
