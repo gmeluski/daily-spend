@@ -33,6 +33,18 @@ body, html {
     */
  }
  
+.currency-input {
+    font-size: 36px;
+    color: $primary-color;
+    
+    input {
+        width: 55%;
+        border: solid 1px $primary-color;
+        color: $primary-color;
+        padding: 3px;
+    }
+}
+
 .centered {
 
     .overlay & {
