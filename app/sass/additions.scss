@@ -45,6 +45,7 @@ body, html {
         border: solid 1px $primary-color;
         color: $primary-color;
         padding: 3px 5px;
+        margin-bottom: 10px;
     }
 }
 
@@ -78,11 +79,17 @@ body, html {
 }
 
 .centered .button {
+    font: 16px/26px Helvetica, Helvetica Neue, Arial;
     padding: 5px 15px;
     border: solid 1px $primary-color;
     color: #fff;
     background-color: $primary-color;
     @include rounded();
+
+    &.push-data {
+        margin-left: 40px;
+        width: 160px;
+    }
 }
 
 

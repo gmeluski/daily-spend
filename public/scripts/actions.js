@@ -1,6 +1,11 @@
 $(document).ready(function () {
-    $('.button').click(function () {
-        $('.block.overlay').show();    
+    $('.new-data').click(function () {
+        $('.block.overlay').fadeIn();    
     }); 
+
+    $('.push-data').click(function () {
+        $('.block.overlay').hide();    
+    }); 
+
     
 });

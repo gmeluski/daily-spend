@@ -29,7 +29,8 @@ body, html {
     width: 55%;
     border: solid 1px #be574c;
     color: #be574c;
-    padding: 3px 5px; }
+    padding: 3px 5px;
+    margin-bottom: 10px; }
 
 .centered {
   display: inline-block;
@@ -55,6 +56,7 @@ body, html {
   line-height: 23px; }
 
 .centered .button {
+  font: 16px/26px Helvetica, Helvetica Neue, Arial;
   padding: 5px 15px;
   border: solid 1px #be574c;
   color: #fff;
@@ -62,6 +64,9 @@ body, html {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em; }
+  .centered .button.push-data {
+    margin-left: 40px;
+    width: 160px; }
 
 .outer-center {
   float: right;
