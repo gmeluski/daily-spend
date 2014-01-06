@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -9,8 +8,7 @@ var path = require('path');
 
 var routes = require('./app/routes');
 var user = require('./app/routes/user');
-var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Server;
-var mongoClient = new MongoClient(new Server('localhost', 27017));
+var spend = require('./app/routes/spend');
 
 
 var app = express();
@@ -35,8 +33,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/spend', routes.spend);
-app.get('/users', user.list);
+app.get('/spend', spend.index);
+app.get('/expense/:amount', spend.expense)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
