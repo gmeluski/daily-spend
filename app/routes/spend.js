@@ -13,6 +13,7 @@ exports.expense = function (req, res) {
 
 exports.retrieve = function (req, res) {
     spendModel.aggregateExpenses();
-
+    res.type('text/plain');
+    res.send('here we go');
 
 }

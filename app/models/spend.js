@@ -43,7 +43,7 @@ module.exports = {
         var collection = db.collection('dailySpend'); 
         
         mongoClient.open(function (err, mongoClient) {
-            collection.find({date: {$gte: start, $lt:end}}).toArray(function(e, docs){
+            collection.find({'date': {$gte: start}}).toArray(function(e, docs){
                 console.log(docs.length); 
                 mongoClient.close(); 
             });
