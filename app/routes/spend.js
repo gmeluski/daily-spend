@@ -10,3 +10,9 @@ exports.expense = function (req, res) {
     res.type('text/plain');
     res.send('i am a beautiful butterfly'); 
 }
+
+exports.retrieve = function (req, res) {
+    spendModel.aggregateExpenses();
+
+
+}

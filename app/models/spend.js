@@ -8,6 +8,13 @@ module.exports = {
         console.log('out');    
     },
 
+    returnCollection: function () {
+        var db = mongoClient.db('expensesTest')
+        var collection = db.collection('dailySpend'); 
+
+        return collection;
+    },
+
     writeExpense: function (amount) {
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
@@ -23,6 +30,28 @@ module.exports = {
                 mongoClient.close();    
             });
         });   
+    },
+
+
+    aggregateExpenses: function () {
+        var start = new Date(2014, 1, 1);
+        var end = new Date(2014, 2, 1);
+        var spendModel = this;
+
+        
+        var db = mongoClient.db('expensesTest')
+        var collection = db.collection('dailySpend'); 
+        
+        mongoClient.open(function (err, mongoClient) {
+            collection.find({date: {$gte: start, $lt:end}}).toArray(function(e, docs){
+                console.log(docs.length); 
+                mongoClient.close(); 
+            });
+        });
+
     }
+
+
+
     
 };
