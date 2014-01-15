@@ -39,7 +39,7 @@ module.exports = {
         var spendModel = this;
         // db.dailySpend.find({createdOn: {$gte: ISODate('2010-01-01T00:00:00.000Z')}})
         // db.dailySpend.aggregate({ $match: { createdOn: { $gte: ISODate('2010-01-01T00:00:00.000Z')}}}, {$group: {_id: '0', sum: {$sum: '$amount'} }}) 
-        var aggregateList = [{ $match: { createdOn: { $gte: new Date('2010-01-01T00:00:00.000Z')}}}, {$group: {_id: '0', sum: {$sum: '$amount'} }}];
+        var aggregateList = [{ $match: { createdOn: { $gte: new Date('2010-01-01T00:00:00.000Z').toISOString()}}}, {$group: {_id: '0', sum: {$sum: '$amount'} }}];
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         
