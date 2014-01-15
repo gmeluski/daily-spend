@@ -20,8 +20,8 @@ module.exports = {
         var collection = db.collection('dailySpend'); 
         var insertObject = {
                 userId: 1,
-                date: new Date(),
-                amount: amount
+                createdOn: new Date(),
+                amount: parseFloat(amount)
             };
 
         mongoClient.open(function(err, mongoClient) {
@@ -37,13 +37,13 @@ module.exports = {
         var start = new Date(2014, 1, 1);
         var end = new Date(2014, 2, 1);
         var spendModel = this;
-
+        // db.dailySpend.find({createdOn: {$gte: ISODate('2010-01-01T00:00:00.000Z')}})
         
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         
         mongoClient.open(function (err, mongoClient) {
-            collection.find({'date': {$gte: start}}).toArray(function(e, docs){
+            collection.find().toArray(function(e, docs){
                 console.log(docs.length); 
                 mongoClient.close(); 
             });
