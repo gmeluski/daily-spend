@@ -41,12 +41,13 @@ module.exports = {
         var startToday = this.returnStartOfDay(new Date());
         
         //var startToday = new Date(todaysDate.getFullYear() + '-' + todaysDate.getMonth() + '-' + todaysDate.getDate() + startString);
-
-        var testDate = new Date('2010-01-01T00:00:00.000Z').toISOString();
+        // write a test for the number of objects returned
+        var testDate = new Date('2014-01-01T00:00:00.000Z').toISOString();
+        var endDate = new Date('2014-01-21T00:00:00.000Z').toISOString()
 
         console.log(startToday);
         console.log(testDate);
-        var matchObject = { $match: { createdOn: { $gte: new Date('2010-01-01T00:00:00.000Z').toISOString()}}};   
+        var matchObject = { $match: { createdOn: { $gte: testDate, $lt: endDate } }};   
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var aggregateList = [matchObject, groupObject];
         var db = mongoClient.db('expensesTest')
