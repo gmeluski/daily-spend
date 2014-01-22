@@ -32,26 +32,25 @@ module.exports = {
         return new Date(newDayString).toISOString(); 
     },
 
+    getDayRange: function () {
+        var today = new Date();
+        var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        var startToday = this.getStartOfDay(today);
+        var endToday = this.getStartOfDay(tomorrow);
+        return { $gte: startToday, $lt: endToday }; 
+    },
+
 
     aggregateExpenses: function () {
         var spendModel = this;
-        var startToday = this.getStartOfDay(new Date());
-        
-        //var startToday = new Date(todaysDate.getFullYear() + '-' + todaysDate.getMonth() + '-' + todaysDate.getDate() + startString);
-        // write a test for the number of objects returned
-        var testDate = new Date('2014-01-01T00:00:00.000Z').toISOString();
-        var endDate = new Date('2014-01-21T00:00:00.000Z').toISOString()
 
-        var matchObject = { $match: { createdOn: { $gte: testDate, $lt: endDate } }};   
+        var matchObject = { $match: { createdOn: spendModel.getDayRange() }};   
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
-        var aggregateList = [matchObject, groupObject];
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         
         mongoClient.open(function (err, mongoClient) {
             collection.aggregate([matchObject, groupObject], function (err, result) {
-                console.log('simpleMatch');
-                console.log('-------------------');
                 console.log(result); 
                 mongoClient.close();
             }); 
