@@ -24,7 +24,7 @@ module.exports = {
         });   
     },
 
-    returnStartOfDay: function (desiredDate) {
+    getStartOfDay: function (desiredDate) {
         var newDayHours = 'T00:00:00.000Z';
         var properMonth = ("0" + (desiredDate.getMonth() + 1)).slice(-2);
         var properDate = ("0" + desiredDate.getDate()).slice(-2)
@@ -34,19 +34,14 @@ module.exports = {
 
 
     aggregateExpenses: function () {
-        var start = new Date(2014, 1, 1);
-
-        var end = new Date(2014, 2, 1);
         var spendModel = this;
-        var startToday = this.returnStartOfDay(new Date());
+        var startToday = this.getStartOfDay(new Date());
         
         //var startToday = new Date(todaysDate.getFullYear() + '-' + todaysDate.getMonth() + '-' + todaysDate.getDate() + startString);
         // write a test for the number of objects returned
         var testDate = new Date('2014-01-01T00:00:00.000Z').toISOString();
         var endDate = new Date('2014-01-21T00:00:00.000Z').toISOString()
 
-        console.log(startToday);
-        console.log(testDate);
         var matchObject = { $match: { createdOn: { $gte: testDate, $lt: endDate } }};   
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var aggregateList = [matchObject, groupObject];
@@ -54,7 +49,7 @@ module.exports = {
         var collection = db.collection('dailySpend'); 
         
         mongoClient.open(function (err, mongoClient) {
-            collection.aggregate([matchObject], function (err, result) {
+            collection.aggregate([matchObject, groupObject], function (err, result) {
                 console.log('simpleMatch');
                 console.log('-------------------');
                 console.log(result); 
