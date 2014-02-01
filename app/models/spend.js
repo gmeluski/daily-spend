@@ -11,13 +11,11 @@ module.exports = {
     writeExpense: function (amount) {
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
-        console.log(new Date().getDate());
-        console.log(new Date().toISOString());
         // why is ISOString time farther ahead of getDate at say, 7 o'clock local time. WTF is up with that?
         
         var insertObject = {
                 userId: 1,
-                createdOn: new Date().toISOString(),
+                createdOn: this.getIsoString(new Date()),
                 amount: parseFloat(amount)
             };
 
@@ -28,22 +26,28 @@ module.exports = {
         });   
     },
 
+    getIsoString: function (date) {
+        return this.getDateString(date) + this.getTimeString(date);
+    },
+    
     getTimeString: function(date) {
-        return 'T' + this.padNumber(date.getHours()) + ':' + this.padNumber(date.getMinutes()) + ':' + this.padNumber(date.getSeconds) + '.' + date.getMilliseconds() +'Z';
+        if (date) {
+            return 'T' + this.padNumber(date.getHours()) + ':' + this.padNumber(date.getMinutes()) + ':' + this.padNumber(date.getSeconds) + '.' + date.getMilliseconds() +'Z';
+        } else {
+            return 'T00:00:00.000Z';
+        }
+    },
+
+    getDateString: function (date) {
+        return date.getFullYear() + '-' + this.padNumber(date.getMonth() + 1) + '-' + this.padNumber(date.getDate());
     },
 
     padNumber: function (number) { 
         return ("0" + number).slice(-2); 
     },
 
-    getProperTime: function (desiredDate, desiredTime) {
-        var properMonth = ("0" + (desiredDate.getMonth() + 1)).slice(-2);
-        var properDate = ("0" + desiredDate.getDate()).slice(-2)
-        return desiredDate.getFullYear() + '-' + properMonth + '-' + properDate + desiredTime;
-    },
-
     getStartOfDay: function (desiredDate) {
-        var newDayString = this.getProperTime(desiredDate, 'T00:00:00.000Z');
+        var newDayString = this.getDateString(desiredDate) + this.getTimeString();
         return new Date(newDayString).toISOString(); 
     },
 
