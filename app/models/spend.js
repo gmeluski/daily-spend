@@ -32,7 +32,7 @@ module.exports = {
     
     getTimeString: function(date) {
         if (date) {
-            return 'T' + this.padNumber(date.getHours()) + ':' + this.padNumber(date.getMinutes()) + ':' + this.padNumber(date.getSeconds) + '.' + date.getMilliseconds() +'Z';
+            return 'T' + this.padNumber(date.getHours()) + ':' + this.padNumber(date.getMinutes()) + ':' + this.padNumber(date.getSeconds()) + '.' + date.getMilliseconds() +'Z';
         } else {
             return 'T00:00:00.000Z';
         }
@@ -60,19 +60,25 @@ module.exports = {
     },
 
 
-    aggregateExpenses: function () {
+    aggregateExpenses: function (total, response) {
         var spendModel = this;
 
         var matchObject = { $match: { createdOn: spendModel.getDayRange() }};  
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
+       
+        var aggregateCallback = function (err, result) {
+                console.log(result);
+                console.log(total - result[0].sum); 
+                mongoClient.close();
+                response.type('text/plain');
+                response.send('here we go');
+        
+        }
         
         mongoClient.open(function (err, mongoClient) {
-            collection.aggregate([matchObject, groupObject], function (err, result) {
-                console.log(result); 
-                mongoClient.close();
-            }); 
+            collection.aggregate([matchObject, groupObject], aggregateCallback); 
         });
 
     }
