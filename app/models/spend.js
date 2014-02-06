@@ -10,10 +10,11 @@ module.exports = {
         return collection;
     },
 
-    writeExpense: function (amount) {
+    writeExpense: function (amount, response) {
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         // why is ISOString time farther ahead of getDate at say, 7 o'clock local time. WTF is up with that?
+        var spendModel = this;
         
         var insertObject = {
                 userId: 1,
@@ -23,6 +24,7 @@ module.exports = {
 
         mongoClient.open(function(err, mongoClient) {
             collection.insert(insertObject, function () {
+                spendModel.jsonResponse(response, {status: 200});
                 mongoClient.close();    
             });
         });   
@@ -70,10 +72,8 @@ module.exports = {
         var collection = db.collection('dailySpend'); 
        
         var aggregateCallback = function (err, result) {
-                console.log(result);
                 var remaining = (result) ? userModel.getUserTotal() - result[0].sum : userModel.getUserTotal(); 
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify({ toSpend: remaining })); 
+                spendModel.jsonResponse(response, { toSpend: remaining });
                 mongoClient.close();
         }
         
@@ -81,9 +81,11 @@ module.exports = {
             collection.aggregate([matchObject, groupObject], aggregateCallback); 
         });
 
+    },
+
+    jsonResponse: function(response, sendData) {
+        response.setHeader('Content-Type', 'application/json');
+        response.end(JSON.stringify(sendData)); 
     }
 
-
-
-    
 };

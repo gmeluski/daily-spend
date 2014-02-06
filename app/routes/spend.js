@@ -6,9 +6,7 @@ exports.index = function(req, res) {
 
 exports.expense = function (req, res) {
     var amount = req.params.amount;
-    spendModel.writeExpense(amount);
-    res.type('text/plain');
-    res.send('i am a beautiful butterfly'); 
+    spendModel.writeExpense(amount, res);
 }
 
 exports.retrieve = function (req, res) {
