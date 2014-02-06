@@ -1,5 +1,7 @@
 var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Server;
 var mongoClient = new MongoClient(new Server('localhost', 27017));
+var userModel = require('./user');
+
 
 module.exports = {
     returnCollection: function () {
@@ -59,7 +61,6 @@ module.exports = {
         return { $gte: startToday, $lt: endToday }; 
     },
 
-
     aggregateExpenses: function (total, response) {
         var spendModel = this;
 
@@ -70,11 +71,10 @@ module.exports = {
        
         var aggregateCallback = function (err, result) {
                 console.log(result);
-                console.log(total - result[0].sum); 
+                var remaining = (result) ? userModel.getUserTotal() - result[0].sum : userModel.getUserTotal(); 
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify({ toSpend: remaining })); 
                 mongoClient.close();
-                response.type('text/plain');
-                response.send('here we go');
-        
         }
         
         mongoClient.open(function (err, mongoClient) {

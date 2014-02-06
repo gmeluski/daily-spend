@@ -1,6 +1,7 @@
 //var assert = require('chai').assert();
 var chai = require('chai');
 var spendModel = require('../models/spend');
+var userModel = require('../models/user');
 
 describe('the spendModel', function (){
     it('should return a string for start of day', function() {
@@ -45,3 +46,6 @@ describe('getDateString', function () {
     });
 
 });
+
+
+
