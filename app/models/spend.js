@@ -72,7 +72,7 @@ module.exports = {
         var collection = db.collection('dailySpend'); 
        
         var aggregateCallback = function (err, result) {
-                var remaining = (result) ? userModel.getUserTotal() - result[0].sum : userModel.getUserTotal(); 
+                var remaining = (result[0]) ? userModel.getUserTotal() - result[0].sum : userModel.getUserTotal(); 
                 spendModel.jsonResponse(response, { toSpend: remaining });
                 mongoClient.close();
         }

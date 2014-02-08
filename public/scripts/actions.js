@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    updateToSpend();
+    
     $('.new-data').click(function () {
         $('.block.overlay').fadeIn();    
     }); 
@@ -8,13 +10,17 @@ $(document).ready(function () {
         expense = parseFloat($('.currency-input input').val());
         expenseUrl = '/expense/' + expense;
         $.get(expenseUrl, function (data){
-            $.get('/retrieve', function (data) {
-                $('.to-spend').html(data.toSpend);
-            });    
+            updateToSpend();
         }); 
         
         $('.block.overlay').hide();    
-    }); 
+    });
+    
+    function updateToSpend() {
+        $.get('/retrieve', function (data) {
+            $('.to-spend').html(data.toSpend);
+        });    
+    }
 
     
 });
