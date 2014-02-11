@@ -63,7 +63,7 @@ module.exports = {
         return { $gte: startToday, $lt: endToday }; 
     },
 
-    aggregateExpenses: function (total, response) {
+    aggregateExpenses: function (callback) {
         var spendModel = this;
 
         var matchObject = { $match: { createdOn: spendModel.getDayRange() }};  
@@ -73,7 +73,7 @@ module.exports = {
        
         var aggregateCallback = function (err, result) {
                 var remaining = (result[0]) ? userModel.getUserTotal() - result[0].sum : userModel.getUserTotal(); 
-                spendModel.jsonResponse(response, { toSpend: remaining });
+                callback(remaining);
                 mongoClient.close();
         }
         
