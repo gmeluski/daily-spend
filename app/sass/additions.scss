@@ -5,6 +5,8 @@
 }
 
 $primary-color: #be574c;
+$iphone-portrait: 320px;
+$iphone-landscape: 480px;
 
 body, html {
     height: 100%;
@@ -64,10 +66,12 @@ body, html {
 
 .product h1 {
     color: #BE574C;
-    font-size: 56px;
-    line-height: 56px;
+    font-size: 76px;
+    line-height: 76px;
     position: relative;
     margin: 0 0 15px;
+
+
 }
 
 .product h1 span.dollar {
