@@ -34,7 +34,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/spend', spend.index);
-app.get('/expense/:amount', spend.expense)
+app.get('/expense/:amount/:offset?*', spend.expense)
 app.get('/retrieve', spend.retrieve);
 
 http.createServer(app).listen(app.get('port'), function(){
