@@ -5,8 +5,8 @@ exports.index = function(req, res) {
 };
 
 exports.expense = function (req, res) {
-    var amount = req.params.amount;
-    spendModel.writeExpense(amount, res);
+    
+    spendModel.writeExpense(res, req.params);
 }
 
 exports.retrieve = function (req, res) {
