@@ -1,5 +1,19 @@
+
+var actions = (function (){
+    
+    return {
+        updateToSpend: function () {
+            $.get('/retrieve', function (data) {
+                $('.to-spend').html(data.toSpend);
+            });    
+        }
+    }
+}());
+
+
+
 $(document).ready(function () {
-    updateToSpend();
+    actions.updateToSpend(); 
     
     $('.new-data').click(function () {
         $('.block.overlay').fadeIn();    
@@ -10,17 +24,14 @@ $(document).ready(function () {
         expense = parseFloat($('.currency-input input').val());
         expenseUrl = '/expense/' + expense;
         $.get(expenseUrl, function (data){
-            updateToSpend();
+            actions.updateToSpend();
         }); 
         
         $('.block.overlay').hide();    
     });
     
-    function updateToSpend() {
-        $.get('/retrieve', function (data) {
-            $('.to-spend').html(data.toSpend);
-        });    
-    }
 
     
 });
+
+
