@@ -1,7 +1,11 @@
+var Actions = (function (){
+    var Actions = function () {
+        console.log('init');
+    };
+   
+    Actions.prototype = {
+        constructor: Actions,
 
-var actions = (function (){
-    
-    return {
         updateToSpend: function () {
             $.get('/retrieve', function (data) {
                 $('.to-spend').html(data.toSpend);
@@ -11,10 +15,13 @@ var actions = (function (){
         test: function () {
             console.log('test');
         }
-    }
+
+    };
+    
+    return Actions
 }());
 
 if (typeof module !== 'undefined') {
-    module.exports = actions;
+    module.exports = Actions;
 }
 

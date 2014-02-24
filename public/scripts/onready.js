@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var actions = new Actions(); 
     actions.updateToSpend(); 
     
     $('.new-data').click(function () {
