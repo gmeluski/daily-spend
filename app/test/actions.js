@@ -4,9 +4,8 @@ var actions = new Actions();
 
 
 describe('the actions', function (){
-    actions.test();
-//    it('should return an object for getDayRange', function() {
-//        chai.expect(spendModel.getDayRange()).to.be.an('object'); 
-//    });
+    it('should return an integer for getTimeZone', function() {
+        chai.expect(actions.getTimeZoneOffset()).to.be.a('number'); 
+    });
 
 });

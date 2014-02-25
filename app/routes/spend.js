@@ -5,7 +5,6 @@ exports.index = function(req, res) {
 };
 
 exports.expense = function (req, res) {
-    
     spendModel.writeExpense(res, req.params);
 }
 

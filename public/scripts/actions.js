@@ -1,6 +1,5 @@
 var Actions = (function (){
     var Actions = function () {
-        console.log('init');
     };
    
     Actions.prototype = {
@@ -12,9 +11,11 @@ var Actions = (function (){
             });    
         },
 
-        test: function () {
-            console.log('test');
+        getTimeZoneOffset: function () {
+            var clientSideDate = new Date();
+            return clientSideDate.getTimezoneOffset();
         }
+
 
     };
     

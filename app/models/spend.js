@@ -15,7 +15,7 @@ module.exports = {
         if (parameters.offset) {
             var offset = parameters.offset;
         }
-        
+
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         // why is ISOString time farther ahead of getDate at say, 7 o'clock local time. WTF is up with that?
