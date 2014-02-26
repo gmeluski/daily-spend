@@ -19,6 +19,14 @@ describe('the spendModel', function (){
         chai.expect(spendModel.getDayRange()).to.be.an('object'); 
     });
 
+    it('should return a number for getTimeZoneDifference', function() {
+        chai.expect(spendModel.getTimeZoneDifference(new Date(), new Date().getTimezoneOffset())).to.be.a('number'); 
+    });
+
+    it('should return a date object for getAdjustedTime', function() {
+        chai.expect(spendModel.getAdjustedTime(new Date().getTimezoneOffset())).to.be.an.instanceof(Date); 
+    });
+
 });
 
 

@@ -4,6 +4,16 @@ var userModel = require('./user');
 
 
 module.exports = {
+    getTimeZoneDifference: function (serverSideTime, desiredOffset) {
+        return serverSideTime.getTimezoneOffset() - desiredOffset;
+    },
+
+    getAdjustedTime: function (clientSideOffset) {
+        var serverSideTime = new Date();
+        var millisecondsPerMinute = 60000;
+        return new Date(serverSideTime - this.getTimeZoneDifference(serverSideTime, clientSideOffset) * millisecondsPerMinute);
+    },
+    
     returnCollection: function () {
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
@@ -15,7 +25,8 @@ module.exports = {
         if (parameters.offset) {
             var offset = parameters.offset;
         }
-
+        var adjustedDate = this.getAdjustedTime(offset); 
+                
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         // why is ISOString time farther ahead of getDate at say, 7 o'clock local time. WTF is up with that?
