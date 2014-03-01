@@ -5,7 +5,7 @@ var userModel = require('./user');
 
 module.exports = {
     getTimeZoneDifference: function (serverSideTime, desiredOffset) {
-        return serverSideTime.getTimezoneOffset() - desiredOffset;
+        return serverSideTime.getTimezoneOffset() + desiredOffset;
     },
 
     getAdjustedTime: function (clientSideOffset) {
