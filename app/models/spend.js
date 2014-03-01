@@ -34,7 +34,7 @@ module.exports = {
         
         var insertObject = {
                 userId: 1,
-                createdOn: this.getIsoString(new Date()),
+                createdOn: this.getIsoString(adjustedDate),
                 amount: parseFloat(amount)
             };
 
