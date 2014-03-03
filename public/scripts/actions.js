@@ -6,7 +6,9 @@ var Actions = (function (){
         constructor: Actions,
 
         updateToSpend: function () {
-            $.get('/retrieve', function (data) {
+            var getUrl = '/retrieve/' + this.getTimeZoneOffset();
+            
+            $.get(getUrl, function (data) {
                 $('.to-spend').html(data.toSpend);
             });    
         },
