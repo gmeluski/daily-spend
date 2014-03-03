@@ -79,9 +79,13 @@ module.exports = {
         return { $gte: startToday, $lt: endToday }; 
     },
 
-    aggregateExpenses: function (callback) {
+    aggregateExpenses: function (parameters, callback) {
         var spendModel = this;
 
+        if (parameters.offset) {
+            var offset = parameters.offset;
+        }
+        
         var matchObject = { $match: { createdOn: spendModel.getDayRange() }};  
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var db = mongoClient.db('expensesTest')
