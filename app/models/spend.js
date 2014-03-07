@@ -71,8 +71,8 @@ module.exports = {
         return new Date(newDayString).toISOString(); 
     },
 
-    getDayRange: function () {
-        var today = new Date();
+    getDayRange: function (dateString) {
+        var today = new Date(dateString);
         var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
         var startToday = this.getStartOfDay(today);
         var endToday = this.getStartOfDay(tomorrow);
@@ -82,11 +82,11 @@ module.exports = {
     aggregateExpenses: function (parameters, callback) {
         var spendModel = this;
 
-        if (parameters.offset) {
-            var offset = parameters.offset;
+        if (parameters.dateString) {
+            var dateString = parameters.dateString;
         }
         
-        var matchObject = { $match: { createdOn: spendModel.getDayRange() }};  
+        var matchObject = { $match: { createdOn: spendModel.getDayRange(dateString) }};  
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 

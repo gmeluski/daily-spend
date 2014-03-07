@@ -13,6 +13,16 @@ var Actions = (function (){
             });    
         },
 
+        getTodaysDate: function () {
+            var currentDate = new Date();
+            return currentDate.getFullYear() + '-' + this.getTwoDigits(currentDate.getMonth() + 1) + '-' + this.getTwoDigits(currentDate.getDate());
+        },
+
+        getTwoDigits: function (numberToPad) {
+            return ("0" + (numberToPad)).slice(-2)
+        },
+
+
         getTimeZoneOffset: function () {
             var clientSideDate = new Date();
             return clientSideDate.getTimezoneOffset();
