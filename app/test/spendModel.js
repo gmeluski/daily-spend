@@ -16,7 +16,7 @@ describe('the spendModel', function (){
     }); 
 
     it('should return an object for getDayRange', function() {
-        chai.expect(spendModel.getDayRange()).to.be.an('object'); 
+        chai.expect(spendModel.getDayRange('2014-02-14')).to.be.an('object'); 
     });
 
     it('should return a number for getTimeZoneDifference', function() {
