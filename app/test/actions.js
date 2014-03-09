@@ -13,6 +13,14 @@ describe('the actions', function (){
         chai.assert.lengthOf(twoDigitsResponse, 2, 'string has a length of two'); 
     });
 
+    it('should return an string for getExpenseUrl', function() {
+        chai.expect(actions.getExpenseUrl('1.00')).to.be.a('string'); 
+    });
+    
+    it('should return an string for getRetrieveUrl', function() {
+        chai.expect(actions.getRetrieveUrl()).to.be.a('string'); 
+    });
+    
     it('should return an string for getTodaysDate', function() {
         var regularExpression = /^[0-9]{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/;
         var dateResult = actions.getTodaysDate();

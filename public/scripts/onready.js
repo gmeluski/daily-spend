@@ -7,14 +7,8 @@ $(document).ready(function () {
     }); 
 
     $('.push-data').click(function () {
-        var expense, expenseUrl;
-        expense = parseFloat($('.currency-input input').val());
-        expenseUrl = '/expense/' + expense + '/' + actions.getTimeZoneOffset();
-        
-        $.get(expenseUrl, function (data){
-            actions.updateToSpend();
-        }); 
-        
+        var expense = parseFloat($('.currency-input input').val());
+        actions.sendExpense(expense); 
         $('.block.overlay').hide();    
     });
     

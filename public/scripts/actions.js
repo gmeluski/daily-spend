@@ -13,6 +13,12 @@ var Actions = (function (){
             });    
         },
 
+        sendExpense: function (expense) {
+            $.get(this.getExpenseUrl(expense), function (data){
+                this.updateToSpend();
+            }); 
+        },
+
         getTodaysDate: function () {
             var currentDate = new Date();
             return currentDate.getFullYear() + '-' + this.getTwoDigits(currentDate.getMonth() + 1) + '-' + this.getTwoDigits(currentDate.getDate());
@@ -22,12 +28,18 @@ var Actions = (function (){
             return ("0" + (numberToPad)).slice(-2)
         },
 
-
         getTimeZoneOffset: function () {
             var clientSideDate = new Date();
             return clientSideDate.getTimezoneOffset();
-        }
+        },
 
+        getRetrieveUrl: function () {
+            return '/retrieve/' + encodeURIComponent(new Date().toDateString());
+        },
+        
+        getExpenseUrl: function (expense) {
+            return '/expense/' + expense + '/' + this.getTimeZoneOffset();
+        }
 
     };
     
