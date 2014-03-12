@@ -72,14 +72,13 @@ module.exports = {
     },
 
     getDayRange: function (dateString) {
-        console.log(dateString);
-        console.log(new Date('2014-02-14'));
-        
         var today = (dateString) ? new Date(dateString) : new Date();
         var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        console.log(today);
         var startToday = this.getStartOfDay(today);
         var endToday = this.getStartOfDay(tomorrow);
+        
+        console.log(startToday);
+        console.log(endToday);
         return { $gte: startToday, $lt: endToday }; 
     },
 

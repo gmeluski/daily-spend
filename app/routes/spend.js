@@ -9,7 +9,7 @@ exports.expense = function (req, res) {
 }
 
 exports.retrieve = function (req, res) {
-    spendModel.aggregateExpenses(function(req.params, remaining) {
+    spendModel.aggregateExpenses(req.params, function(remaining) {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ toSpend: remaining })); 
     });
