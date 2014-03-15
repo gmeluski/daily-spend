@@ -77,8 +77,6 @@ module.exports = {
         var startToday = this.getStartOfDay(today);
         var endToday = this.getStartOfDay(tomorrow);
         
-        console.log(startToday);
-        console.log(endToday);
         return { $gte: startToday, $lt: endToday }; 
     },
 
