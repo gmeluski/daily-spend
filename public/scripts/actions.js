@@ -12,8 +12,10 @@ var Actions = (function (){
         },
 
         sendExpense: function (expense) {
+            var actions = this;
+            
             $.get(this.getExpenseUrl(expense), function (data){
-                this.updateToSpend();
+                actions.updateToSpend();
             }); 
         },
 
