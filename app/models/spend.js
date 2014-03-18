@@ -2,6 +2,7 @@ var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Se
 var mongoClient = new MongoClient(new Server('localhost', 27017));
 var userModel = require('./user');
 var moment = require('moment');
+var User = new userModel();
 
 module.exports = {
     getTimeZoneDifference: function (serverSideOffset, desiredOffset) {
@@ -14,10 +15,10 @@ module.exports = {
 
         return new Date(serverSideTime + this.getTimeZoneDifference(serverSideTime.getTimezoneOffset(), clientSideOffset) * millisecondsPerMinute);
     },
-    
+
     returnCollection: function () {
         var db = mongoClient.db('expensesTest')
-        var collection = db.collection('dailySpend'); 
+        var collection = db.collection('dailySpend');
         return collection;
     },
 
@@ -32,9 +33,9 @@ module.exports = {
         mongoClient.open(function(err, mongoClient) {
             collection.insert(writeObject, function () {
                 spendModel.jsonResponse(response, {status: 200});
-                mongoClient.close();    
+                mongoClient.close();
             });
-        });   
+        });
     },
 
     getWriteObject: function (amount, clientTime) {
@@ -48,7 +49,7 @@ module.exports = {
     getIsoString: function (date) {
         return this.getMomentDateString(date) + this.getMomentTimeString(date);
     },
-    
+
     getTimeString: function(date) {
         if (date) {
             return 'T' + this.padNumber(date.getHours()) + ':' + this.padNumber(date.getMinutes()) + ':' + this.padNumber(date.getSeconds()) + '.' + date.getMilliseconds() +'Z';
@@ -79,7 +80,7 @@ module.exports = {
 
     getStartOfDay: function (desiredDate) {
         var newDayString = this.getDateString(desiredDate) + this.getTimeString();
-        return new Date(newDayString).toISOString(); 
+        return new Date(newDayString).toISOString();
     },
 
     getDayRange: function (dateString) {
@@ -87,37 +88,37 @@ module.exports = {
         var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
         var startToday = this.getStartOfDay(today);
         var endToday = this.getStartOfDay(tomorrow);
-        
-        return { $gte: startToday, $lt: endToday }; 
+
+        return { $gte: startToday, $lt: endToday };
     },
 
-    aggregateExpenses: function (parameters, callback) {
+    aggregateExpenses: function (request, callback) {
         var spendModel = this;
 
-        if (parameters.dateString) {
-            var dateString = parameters.dateString;
+        if (request.params.dateString) {
+            var dateString = request.params.dateString;
         }
-        
-        var matchObject = { $match: { createdOn: spendModel.getDayRange(dateString) }};  
+
+        var matchObject = { $match: { createdOn: spendModel.getDayRange(dateString) }};
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var db = mongoClient.db('expensesTest')
-        var collection = db.collection('dailySpend'); 
-       
+        var collection = db.collection('dailySpend');
+
         var aggregateCallback = function (err, result) {
-                var remaining = (result[0]) ? userModel.getUserTotal() - result[0].sum : userModel.getUserTotal(); 
+                var remaining = (result[0]) ? request.user.spend - result[0].sum : request.user.spend;
                 callback(remaining);
                 mongoClient.close();
         }
-        
+
         mongoClient.open(function (err, mongoClient) {
-            collection.aggregate([matchObject, groupObject], aggregateCallback); 
+            collection.aggregate([matchObject, groupObject], aggregateCallback);
         });
 
     },
 
     jsonResponse: function(response, sendData) {
         response.setHeader('Content-Type', 'application/json');
-        response.end(JSON.stringify(sendData)); 
+        response.end(JSON.stringify(sendData));
     }
 
 };
