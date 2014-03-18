@@ -1,4 +1,5 @@
 var chai = require('chai');
+var moment = require('moment');
 var Actions = require('../../public/scripts/actions.js'); 
 var actions = new Actions();
 
@@ -14,7 +15,8 @@ describe('the actions', function (){
     });
 
     it('should return an string for getExpenseUrl', function() {
-        chai.expect(actions.getExpenseUrl('1.00')).to.be.a('string'); 
+        var timeString = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZ"); 
+        chai.expect(actions.getExpenseUrl('1.00'), timeString).to.be.a('string'); 
     });
     
     it('should return an string for getRetrieveUrl', function() {

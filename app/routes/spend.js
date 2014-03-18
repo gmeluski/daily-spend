@@ -11,7 +11,7 @@ exports.expense = function (req, res) {
 exports.retrieve = function (req, res) {
     spendModel.aggregateExpenses(req.params, function(remaining) {
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ toSpend: remaining })); 
+        res.end(JSON.stringify({ toSpend: remaining.toFixed(2) })); 
     });
 
 }
