@@ -11,10 +11,10 @@ var Actions = (function (){
             });    
         },
 
-        sendExpense: function (expense) {
+        sendExpense: function (expense, timeString) {
             var actions = this;
             
-            $.get(this.getExpenseUrl(expense), function (data){
+            $.get(this.getExpenseUrl(expense, timeString), function (data){
                 actions.updateToSpend();
             }); 
         },
@@ -37,8 +37,8 @@ var Actions = (function (){
             return '/retrieve/' + encodeURIComponent(new Date().toDateString());
         },
         
-        getExpenseUrl: function (expense) {
-            return '/expense/' + expense + '/' + this.getTimeZoneOffset();
+        getExpenseUrl: function (expense, timeString) {
+            return '/expense/' + expense + '/' + encodeURI(timeString);
         }
 
     };

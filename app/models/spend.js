@@ -1,17 +1,18 @@
 var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Server;
 var mongoClient = new MongoClient(new Server('localhost', 27017));
 var userModel = require('./user');
-
+var moment = require('moment');
 
 module.exports = {
-    getTimeZoneDifference: function (serverSideTime, desiredOffset) {
-        return serverSideTime.getTimezoneOffset() + desiredOffset;
+    getTimeZoneDifference: function (serverSideOffset, desiredOffset) {
+        return desiredOffset - serverSideOffset;
     },
 
-    getAdjustedTime: function (clientSideOffset) {
-        var serverSideTime = new Date();
+    getAdjustedTime: function (serverSideTime, clientSideOffset) {
         var millisecondsPerMinute = 60000;
-        return new Date(serverSideTime - this.getTimeZoneDifference(serverSideTime, clientSideOffset) * millisecondsPerMinute);
+        var timeZoneDifference = this.getTimeZoneDifference(serverSideTime.getTimezoneOffset(), clientSideOffset);
+
+        return new Date(serverSideTime + this.getTimeZoneDifference(serverSideTime.getTimezoneOffset(), clientSideOffset) * millisecondsPerMinute);
     },
     
     returnCollection: function () {
@@ -21,33 +22,31 @@ module.exports = {
     },
 
     writeExpense: function (response, parameters) {
-        var amount = parameters.amount;
-        if (parameters.offset) {
-            var offset = parameters.offset;
-        }
-        var adjustedDate = this.getAdjustedTime(offset); 
-                
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
-        // why is ISOString time farther ahead of getDate at say, 7 o'clock local time. WTF is up with that?
         var spendModel = this;
-        
-        var insertObject = {
-                userId: 1,
-                createdOn: this.getIsoString(adjustedDate),
-                amount: parseFloat(amount)
-            };
-
+        var amount = parameters.amount;
+        var clientTime = (parameters.dateString) ? moment(decodeURI(parameters.dateString)) : moment(); 
+        var writeObject = spendModel.getWriteObject(amount, clientTime);
+         
         mongoClient.open(function(err, mongoClient) {
-            collection.insert(insertObject, function () {
+            collection.insert(writeObject, function () {
                 spendModel.jsonResponse(response, {status: 200});
                 mongoClient.close();    
             });
         });   
     },
 
+    getWriteObject: function (amount, clientTime) {
+        return {
+                userId: 1,
+                createdOn: this.getIsoString(clientTime),
+                amount: parseFloat(amount)
+            } 
+    },
+
     getIsoString: function (date) {
-        return this.getDateString(date) + this.getTimeString(date);
+        return this.getMomentDateString(date) + this.getMomentTimeString(date);
     },
     
     getTimeString: function(date) {
@@ -58,10 +57,22 @@ module.exports = {
         }
     },
 
+    getMomentTimeString: function (date) {
+        if (date) {
+            return 'T' + this.padNumber(date.hour()) + ':' + this.padNumber(date.minutes()) + ':' + this.padNumber(date.seconds()) + '.' + date.milliseconds() +'Z';
+        } else {
+            return 'T00:00:00.000Z';
+        }
+    },
+
     getDateString: function (date) {
         return date.getFullYear() + '-' + this.padNumber(date.getMonth() + 1) + '-' + this.padNumber(date.getDate());
     },
 
+    getMomentDateString: function (date) {
+        return date.year() + '-' + this.padNumber(date.month() + 1) + '-' + this.padNumber(date.date());
+    },
+    
     padNumber: function (number) { 
         return ("0" + number).slice(-2); 
     },
