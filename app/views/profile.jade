@@ -1,0 +1,14 @@
+extends authentication
+
+block content
+    div(class="container")
+        div(class="page-header text-center")
+            h1 Profile Page
+            form(action="/profile" method="POST")
+                div(class="form-group col-md-2")
+                    <label>Your Spend</label>
+                    input(type="text" class="form-control" name="spend" value="#{pageData.spend}")
+                button(type="submit" class="btn btn-default btn-sm").
+                    Update
+            
+            a(href="/logout" class="btn btn-default btn-sm") Logout

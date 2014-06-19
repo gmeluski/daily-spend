@@ -1,7 +1,9 @@
 $(document).ready(function () {
     var actions = new Actions(); 
-    actions.updateToSpend(); 
-    
+    if ($('.to-spend').length > 0) {
+        actions.updateToSpend(); 
+    }
+
     $('.new-data').click(function () {
         $('.block.overlay').fadeIn();    
     }); 
