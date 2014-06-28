@@ -29,11 +29,16 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // passport
-app.use(express.session({secret: 'dewit'}));
+app.use(express.session({
+    secret: 'dewit',
+    cookie: {
+        maxAge: 31*24*60*60*1000 // 31 days, in milliseconds
+    }
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
