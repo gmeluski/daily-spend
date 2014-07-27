@@ -8,7 +8,7 @@ exports.index = function(req, res) {
 };
 
 exports.expense = function (req, res) {
-    spendModel.writeExpense(res, req.params);
+    spendModel.writeExpense(req.user._id, req.params, res);
 }
 
 exports.retrieve = function (req, res) {

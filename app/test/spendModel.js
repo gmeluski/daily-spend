@@ -28,7 +28,7 @@ describe('the spendModel', function (){
 });
 
 describe('getWriteObject', function () {
-    var writeObject = spendModel.getWriteObject('1.00', moment());
+    var writeObject = spendModel.getWriteObject('539a2d9530231f83160869af', '1.00', moment());
     
     it('should return an object', function () {
         chai.expect(writeObject).to.be.an('object');  

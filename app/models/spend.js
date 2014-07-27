@@ -22,13 +22,13 @@ module.exports = {
         return collection;
     },
 
-    writeExpense: function (response, parameters) {
+    writeExpense: function (userId, parameters, response) {
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         var spendModel = this;
         var amount = parameters.amount;
         var clientTime = (parameters.dateString) ? moment(decodeURI(parameters.dateString)) : moment(); 
-        var writeObject = spendModel.getWriteObject(amount, clientTime);
+        var writeObject = spendModel.getWriteObject(userId, amount, clientTime);
          
         mongoClient.open(function(err, mongoClient) {
             collection.insert(writeObject, function () {
@@ -38,9 +38,9 @@ module.exports = {
         });
     },
 
-    getWriteObject: function (amount, clientTime) {
+    getWriteObject: function (userId, amount, clientTime) {
         return {
-                userId: 1,
+                userId: userId,
                 createdOn: this.getIsoString(clientTime),
                 amount: parseFloat(amount)
             } 
@@ -99,7 +99,7 @@ module.exports = {
             var dateString = request.params.dateString;
         }
 
-        var matchObject = { $match: { createdOn: spendModel.getDayRange(dateString) }};
+        var matchObject = { $match: { userId: request.user._id, createdOn: spendModel.getDayRange(dateString) }};
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
         var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend');
