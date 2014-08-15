@@ -27,6 +27,10 @@ module.exports = {
 
     writeExpense: function (userId, parameters, response) {
         var db = mongoClient.db('expensesTest')
+
+        // http://stackoverflow.com/questions/14045509/how-can-you-specify-the-mongodb-username-and-password-using-a-server-instance
+        db.authenticate('username','password', function (err, result) {});
+        
         var collection = db.collection('dailySpend'); 
         var spendModel = this;
         var amount = parameters.amount;
