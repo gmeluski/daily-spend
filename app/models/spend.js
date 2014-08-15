@@ -1,8 +1,11 @@
 var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Server;
-var mongoClient = new MongoClient(new Server('localhost', 27017));
+var mongoClient = new MongoClient(new Server(process.env.MONGO_HOST, process.env.MONGO_PORT));
 var userModel = require('./user');
 var moment = require('moment');
 var User = new userModel();
+var trashClient = MongoClient.connect(process.env.MONGOHQ_URL, function () {
+    
+});
 
 module.exports = {
     getTimeZoneDifference: function (serverSideOffset, desiredOffset) {
