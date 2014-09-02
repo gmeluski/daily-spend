@@ -1,13 +1,23 @@
 var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Server;
-var mongoClient = new MongoClient(new Server(process.env.MONGO_HOST, process.env.MONGO_PORT));
+console.log(process.env.MONGOHOST);
+console.log(process.env.MONGOPORT);
+var mongoClient = new MongoClient(new Server(process.env.MONGOHOST, process.env.MONGOPORT));
 var userModel = require('./user');
 var moment = require('moment');
 var User = new userModel();
-var trashClient = MongoClient.connect(process.env.MONGOHQ_URL, function () {
-    
-});
+
+//console.log(mongoClient);
+
+
 
 module.exports = {
+    authenticationWrapper: function (callback) {
+        mongoClient.open(function(err, mongoClient) {
+            var db = mongoClient.db('expensesTest');
+            db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, callback);
+        });
+    },
+    
     getTimeZoneDifference: function (serverSideOffset, desiredOffset) {
         return desiredOffset - serverSideOffset;
     },
@@ -26,11 +36,8 @@ module.exports = {
     },
 
     writeExpense: function (userId, parameters, response) {
-        var db = mongoClient.db('expensesTest')
-
-        // http://stackoverflow.com/questions/14045509/how-can-you-specify-the-mongodb-username-and-password-using-a-server-instance
-        db.authenticate('username','password', function (err, result) {});
         
+        var db = mongoClient.db('expensesTest')
         var collection = db.collection('dailySpend'); 
         var spendModel = this;
         var amount = parameters.amount;
@@ -108,8 +115,6 @@ module.exports = {
 
         var matchObject = { $match: { userId: request.user._id, createdOn: spendModel.getDayRange(dateString) }};
         var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
-        var db = mongoClient.db('expensesTest')
-        var collection = db.collection('dailySpend');
 
         var aggregateCallback = function (err, result) {
                 var remaining = (result[0]) ? request.user.spend - result[0].sum : request.user.spend;
@@ -117,10 +122,7 @@ module.exports = {
                 mongoClient.close();
         }
 
-        mongoClient.open(function (err, mongoClient) {
-            collection.aggregate([matchObject, groupObject], aggregateCallback);
-        });
-
+        this.authenticationWrapper(aggregateCallback); 
     },
 
     jsonResponse: function(response, sendData) {
