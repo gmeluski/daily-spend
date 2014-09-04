@@ -11,13 +11,6 @@ var User = new userModel();
 
 
 module.exports = {
-    authenticationWrapper: function (callback) {
-        mongoClient.open(function(err, mongoClient) {
-            var db = mongoClient.db('expensesTest');
-            db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, callback);
-        });
-    },
-    
     getTimeZoneDifference: function (serverSideOffset, desiredOffset) {
         return desiredOffset - serverSideOffset;
     },
@@ -36,20 +29,25 @@ module.exports = {
     },
 
     writeExpense: function (userId, parameters, response) {
-        
-        var db = mongoClient.db('expensesTest')
-        var collection = db.collection('dailySpend'); 
         var spendModel = this;
-        var amount = parameters.amount;
-        var clientTime = (parameters.dateString) ? moment(decodeURI(parameters.dateString)) : moment(); 
-        var writeObject = spendModel.getWriteObject(userId, amount, clientTime);
-         
+       
         mongoClient.open(function(err, mongoClient) {
-            collection.insert(writeObject, function () {
-                spendModel.jsonResponse(response, {status: 200});
-                mongoClient.close();
+            var db = mongoClient.db('expensesTest');
+            db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, function () {
+            // db information
+                var collection = db.collection('dailySpend'); 
+                // assignments from inherited environment 
+                var amount = parameters.amount;
+                var clientTime = (parameters.dateString) ? moment(decodeURI(parameters.dateString)) : moment(); 
+                var writeObject = spendModel.getWriteObject(userId, amount, clientTime);
+                
+                collection.insert(writeObject, function () {
+                    spendModel.jsonResponse(response, {status: 200});
+                    mongoClient.close();
+                });
             });
         });
+        
     },
 
     getWriteObject: function (userId, amount, clientTime) {
@@ -113,16 +111,21 @@ module.exports = {
             var dateString = request.params.dateString;
         }
 
-        var matchObject = { $match: { userId: request.user._id, createdOn: spendModel.getDayRange(dateString) }};
-        var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
-
         var aggregateCallback = function (err, result) {
                 var remaining = (result[0]) ? request.user.spend - result[0].sum : request.user.spend;
                 callback(remaining);
                 mongoClient.close();
         }
-
-        this.authenticationWrapper(aggregateCallback); 
+        
+        mongoClient.open(function(err, mongoClient) {
+            var db = mongoClient.db('expensesTest');
+            db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, function(err, result){
+                var collection = db.collection('dailySpend'); 
+                var matchObject = { $match: { userId: request.user._id, createdOn: spendModel.getDayRange(dateString) }};
+                var groupObject = {$group: {_id: '0', sum: {$sum: '$amount'} }}
+                collection.aggregate([matchObject, groupObject], aggregateCallback);
+            });
+        });
     },
 
     jsonResponse: function(response, sendData) {
