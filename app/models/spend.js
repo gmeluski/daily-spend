@@ -1,6 +1,4 @@
 var MongoClient = require('mongodb').MongoClient, Server = require('mongodb').Server;
-console.log(process.env.MONGOHOST);
-console.log(process.env.MONGOPORT);
 var mongoClient = new MongoClient(new Server(process.env.MONGOHOST, process.env.MONGOPORT));
 var userModel = require('./user');
 var moment = require('moment');
@@ -23,7 +21,7 @@ module.exports = {
     },
 
     returnCollection: function () {
-        var db = mongoClient.db('expensesTest')
+        var db = mongoClient.db(process.env.MONGODB)
         var collection = db.collection('dailySpend');
         return collection;
     },
@@ -32,7 +30,7 @@ module.exports = {
         var spendModel = this;
        
         mongoClient.open(function(err, mongoClient) {
-            var db = mongoClient.db('expensesTest');
+            var db = mongoClient.db(process.env.MONGODB);
             db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, function () {
             // db information
                 var collection = db.collection('dailySpend'); 
@@ -118,7 +116,7 @@ module.exports = {
         }
         
         mongoClient.open(function(err, mongoClient) {
-            var db = mongoClient.db('expensesTest');
+            var db = mongoClient.db(process.env.MONGODB);
             db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, function(err, result){
                 var collection = db.collection('dailySpend'); 
                 var matchObject = { $match: { userId: request.user._id, createdOn: spendModel.getDayRange(dateString) }};
