@@ -60,7 +60,7 @@ app.get('/signup', user.signup);
 app.get('/logout', user.logout);
 app.get('/profile', user.isLoggedIn, user.profile);
 
-mongoose.connect('mongodb://localhost/expensesTest');
+mongoose.connect(process.env.MONGOHQ_URL);
 
 app.post('/login', 
     passport.authenticate('local-login',
