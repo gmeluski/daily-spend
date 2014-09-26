@@ -8,6 +8,18 @@ var http = require('http');
 var path = require('path');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var MongoStore = require('connect-mongo')(express)
+
+var conf = {
+  db: {
+    db: process.env.MONGODB,
+    host: process.env.MONGOHOST,
+    port: process.env.MONGOPORT,  // optional, default: 27017
+    username: process.env.MONGOUSER, // optional
+    password: process.env.MONGOPASS, // optional
+    collection: 'mySessions' // optional, default: sessions
+  }
+};
 
 
 require('./app/config/passport')(passport); 
@@ -34,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // passport
 app.use(express.session({
     secret: 'dewit',
+    store: new MongoStore(conf.db),
     cookie: {
         maxAge: 31*24*60*60*1000 // 31 days, in milliseconds
     }
