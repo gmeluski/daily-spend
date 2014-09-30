@@ -69,6 +69,7 @@ app.get('/retrieve/:dateString?*', spend.retrieve);
 
 // user routes
 app.get('/login', user.login);
+app.get('/login-fail', user.loginFail);
 app.get('/signup', user.signup);
 app.get('/logout', user.logout);
 app.get('/profile', user.isLoggedIn, user.profile);
@@ -79,7 +80,7 @@ app.post('/login',
     passport.authenticate('local-login',
     {
         successRedirect: '/spend',
-        failureRedirect: '/login',
+        failureRedirect: '/login-fail',
     }),
     function (req, res) {
         

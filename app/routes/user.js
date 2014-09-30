@@ -2,11 +2,16 @@ var user = require('../models/user');
 var User = new user();
 
 exports.login = function(req, res){
-  res.render('login');
+    res.render('login');
 };
 
+exports.loginFail = function (req, res) {
+    res.render('loginFail');    
+};
+
+
 exports.signup = function(req, res){
-  res.render('signup');
+    res.render('signup');
 };
 
 exports.logout = function(req, res) {
