@@ -92,7 +92,7 @@ app.post('/signup',
     passport.authenticate('local-signup', 
     {
         successRedirect: '/',
-        failureRedirect: '/signup',
+        failureRedirect: '/signupFail',
         failureFlash: true
     }),
     function (req, res) {

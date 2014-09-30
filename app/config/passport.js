@@ -32,9 +32,9 @@ module.exports = function(passport) {
                         return done(err);
                     }
 
-
+                    // email is taken
                     if (user) {
-                        return done(null, false, req.flash('signupMessage', 'That email is taken'));
+                        return done(null, false);
                     } else {
                         var newUser = new User();
                         newUser.local.email = email;
@@ -73,7 +73,7 @@ module.exports = function(passport) {
                 }
 
                 if (!user.validPassword(password)) {
-                    return done(null, false, req.flash('loginMessage', 'Wrong password'));
+                    return done(null, false);
                 }
 
                 return done(null, user);

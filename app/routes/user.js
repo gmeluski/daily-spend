@@ -9,9 +9,12 @@ exports.loginFail = function (req, res) {
     res.render('loginFail');    
 };
 
-
 exports.signup = function(req, res){
     res.render('signup');
+};
+
+exports.signupFail = function(req, res){
+    res.render('signupFail');
 };
 
 exports.logout = function(req, res) {
