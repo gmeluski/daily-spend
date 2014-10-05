@@ -1,22 +1,22 @@
 var Actions = (function (){
     var Actions = function () {
     };
-   
+
     Actions.prototype = {
         constructor: Actions,
 
         updateToSpend: function () {
             $.get(this.getRetrieveUrl(), function (data) {
                 $('.to-spend').html(data.toSpend);
-            });    
+            });
         },
 
         sendExpense: function (expense, timeString) {
             var actions = this;
-            
+
             $.get(this.getExpenseUrl(expense, timeString), function (data){
                 actions.updateToSpend();
-            }); 
+            });
         },
 
         getTodaysDate: function () {
@@ -36,13 +36,18 @@ var Actions = (function (){
         getRetrieveUrl: function () {
             return '/retrieve/' + encodeURIComponent(new Date().toDateString());
         },
-        
+
         getExpenseUrl: function (expense, timeString) {
             return '/expense/' + expense + '/' + encodeURI(timeString);
-        }
+        },
 
+        killOverlay: function ($overlay) {
+          $overlay.hide();
+          $overlay.off('click');
+          $overlay.find('.centered').off('click');
+        }
     };
-    
+
     return Actions
 }());
 
