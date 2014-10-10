@@ -26,25 +26,40 @@ module.exports = {
         return collection;
     },
 
+    prepareAmount: function (amount) {
+        var parsedAmount = parseFloat(amount)
+
+        if (this.isNumber(parsedAmount)) {
+            return parsedAmount
+        }
+        
+        return false;
+    },
+    
+    isNumber: function(valueToTest) {
+        return !(valueToTest !== valueToTest)
+    },
+
     writeExpense: function (userId, parameters, response) {
         var spendModel = this;
-       
-        mongoClient.open(function(err, mongoClient) {
-            var db = mongoClient.db(process.env.MONGODB);
-            db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, function () {
-            // db information
-                var collection = db.collection('dailySpend'); 
-                // assignments from inherited environment 
-                var amount = parameters.amount;
-                var clientTime = (parameters.dateString) ? moment(decodeURI(parameters.dateString)) : moment(); 
-                var writeObject = spendModel.getWriteObject(userId, amount, clientTime);
-                
-                collection.insert(writeObject, function () {
-                    spendModel.jsonResponse(response, {status: 200});
-                    mongoClient.close();
+        var amount = this.prepareAmount(parameters.amount);    
+        if (amount) {
+            mongoClient.open(function(err, mongoClient) {
+                var db = mongoClient.db(process.env.MONGODB);
+                db.authenticate(process.env.MONGOUSER, process.env.MONGOPASS, function () {
+                // db information
+                    var collection = db.collection('dailySpend'); 
+                    // assignments from inherited environment 
+                    var clientTime = (parameters.dateString) ? moment(decodeURI(parameters.dateString)) : moment(); 
+                    var writeObject = spendModel.getWriteObject(userId, amount, clientTime);
+                    
+                    collection.insert(writeObject, function () {
+                        spendModel.jsonResponse(response, {status: 200});
+                        mongoClient.close();
+                    });
                 });
             });
-        });
+        }
         
     },
 
@@ -52,7 +67,7 @@ module.exports = {
         return {
                 userId: userId,
                 createdOn: this.getIsoString(clientTime),
-                amount: parseFloat(amount)
+                amount: amount
             } 
     },
 

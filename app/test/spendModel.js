@@ -1,10 +1,22 @@
 //var assert = require('chai').assert();
 var chai = require('chai');
+var expect = chai.expect;
 var spendModel = require('../models/spend');
 var moment = require('moment');
 var _ = require('underscore');
 
 describe('the spendModel', function (){
+    it('evalutes whether a number can be pushed into the db', function (){
+        testInteger = '12';
+        testNumber = '11.30';
+        testString = 'a;dlkjadsf';
+        
+        expect(spendModel.prepareAmount(testInteger)).to.be.ok;
+        expect(spendModel.prepareAmount(testNumber)).to.be.ok;
+        expect(spendModel.prepareAmount(testString)).to.be.false;
+    
+    });
+    
     it('should return a string for start of day', function() {
         chai.expect(spendModel.getStartOfDay(new Date())).to.be.a('string'); 
     });
