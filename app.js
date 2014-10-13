@@ -71,6 +71,7 @@ app.get('/retrieve/:dateString?*', spend.retrieve);
 app.get('/login', user.login);
 app.get('/login-fail', user.loginFail);
 app.get('/signup', user.signup);
+app.get('/signup-fail', user.signupFail);
 app.get('/logout', user.logout);
 app.get('/profile', user.isLoggedIn, user.profile);
 
@@ -92,7 +93,7 @@ app.post('/signup',
     passport.authenticate('local-signup', 
     {
         successRedirect: '/',
-        failureRedirect: '/signupFail',
+        failureRedirect: '/signup-fail',
         failureFlash: true
     }),
     function (req, res) {

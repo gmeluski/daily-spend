@@ -4,6 +4,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var flash = require('connect-flash');
 var mongoose = require('mongoose');
+var maxUsers = 10;
 
 module.exports = function(passport) {
 
@@ -27,7 +28,7 @@ module.exports = function(passport) {
 
             process.nextTick(function (){
 
-                User.findOne({'local.email': email}, function (err, user) {
+                var hookupUser = function (err, user) {
                     if (err) {
                         return done(err);
                     }
@@ -47,8 +48,17 @@ module.exports = function(passport) {
                             return done(null, newUser);
                         });
                     }
-                });
+                }
 
+
+                User.count({}, function (err, count) {
+                    if (count < maxUsers) {
+                        // begin user hookup
+                        User.findOne({'local.email': email}, hookupUser); // end user hookup
+                    } else {
+                        return done(null, false)
+                    }
+                });
             });
         }
 
