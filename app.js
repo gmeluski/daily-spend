@@ -64,8 +64,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', user.isLoggedIn, spend.index);
 app.get('/spend', user.isLoggedIn, spend.index);
-app.get('/expense/:amount/:dateString?*', spend.expense)
+app.get('/expense/:amount/:dateString?*', spend.expense);
 app.get('/retrieve/:dateString?*', spend.retrieve);
+app.get('/roadmap', spend.roadmap);
 
 // user routes
 app.get('/login', user.login);

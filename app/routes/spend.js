@@ -9,7 +9,7 @@ exports.index = function(req, res) {
 
 exports.expense = function (req, res) {
     spendModel.writeExpense(req.user._id, req.params, res);
-}
+};
 
 exports.retrieve = function (req, res) {
     spendModel.aggregateExpenses(req, function(remaining) {
@@ -18,4 +18,8 @@ exports.retrieve = function (req, res) {
         res.end(JSON.stringify({ toSpend: helpers.decimalSwitch(remaining) })); 
     });
 
-}
+};
+
+exports.roadmap = function (req, res) {
+    res.render('roadmap', {title: 'Roadmap'});
+};
