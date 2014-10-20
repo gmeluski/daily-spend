@@ -80,3 +80,7 @@ body, html {
 
 .clear {
   clear: both; }
+
+.wrap-text {
+  padding: 20px;
+}

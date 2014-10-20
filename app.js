@@ -22,7 +22,7 @@ var conf = {
 };
 
 
-require('./app/config/passport')(passport); 
+require('./app/config/passport')(passport);
 
 var routes = require('./app/routes');
 var user = require('./app/routes/user');
@@ -67,6 +67,7 @@ app.get('/spend', user.isLoggedIn, spend.index);
 app.get('/expense/:amount/:dateString?*', spend.expense);
 app.get('/retrieve/:dateString?*', spend.retrieve);
 app.get('/roadmap', spend.roadmap);
+app.get('/why', spend.why);
 
 // user routes
 app.get('/login', user.login);
@@ -78,20 +79,20 @@ app.get('/profile', user.isLoggedIn, user.profile);
 
 mongoose.connect(process.env.MONGOHQ_URL);
 
-app.post('/login', 
+app.post('/login',
     passport.authenticate('local-login',
     {
         successRedirect: '/spend',
         failureRedirect: '/login-fail',
     }),
     function (req, res) {
-        
-        
+
+
     }
 );
 
-app.post('/signup', 
-    passport.authenticate('local-signup', 
+app.post('/signup',
+    passport.authenticate('local-signup',
     {
         successRedirect: '/',
         failureRedirect: '/signup-fail',
@@ -99,7 +100,7 @@ app.post('/signup',
     }),
     function (req, res) {
         console.log(req);
-        console.log(res);    
+        console.log(res);
 });
 
 app.post('/profile', user.updateProfile);

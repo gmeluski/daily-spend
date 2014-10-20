@@ -7,6 +7,11 @@ exports.index = function(req, res) {
     res.render('spend', { title: '30' });
 };
 
+
+exports.why = function(req, res) {
+    res.render('why', { title: 'Why Daily Spend' });
+};
+
 exports.expense = function (req, res) {
     spendModel.writeExpense(req.user._id, req.params, res);
 };
@@ -15,7 +20,7 @@ exports.retrieve = function (req, res) {
     spendModel.aggregateExpenses(req, function(remaining) {
         res.setHeader('Content-Type', 'application/json');
         // add a helper method to determine the switch
-        res.end(JSON.stringify({ toSpend: helpers.decimalSwitch(remaining) })); 
+        res.end(JSON.stringify({ toSpend: helpers.decimalSwitch(remaining) }));
     });
 
 };
