@@ -58,7 +58,7 @@ app.use(passport.session());
 app.use(app.router);
 
 // development only
-if ('develop' == app.get('env')) {
+if ('develop' == process.env.NODE_ENV) {
   app.use(express.errorHandler());
 }
 
@@ -67,7 +67,7 @@ mongoose.connect(process.env.MONGOHQ_URL);
 
 
 // development level routes
-if ('develop' === app.get('env')) {
+if ('develop' === process.env.NODE_ENV) {
     homepagePath = spend.index;
 
     // signup routes
@@ -87,7 +87,7 @@ if ('develop' === app.get('env')) {
 
 
 // prod routes
-} else if ('production' === app.get('env')) {
+} else if ('production' === process.env.NODE_ENV) {
     homepagePath = spend.roadmap
 }
 
