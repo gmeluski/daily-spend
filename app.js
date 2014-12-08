@@ -92,7 +92,7 @@ if ('develop' === process.env.NODE_ENV) {
 }
 
 // universal routes
-app.get('/', user.isLoggedIn, homepagePath);
+app.get('/', user.homepageLoggedIn, homepagePath);
 app.get('/spend', user.isLoggedIn, spend.index);
 app.get('/expense/:amount/:dateString?*', spend.expense);
 app.get('/retrieve/:dateString?*', spend.retrieve);
