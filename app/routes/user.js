@@ -42,11 +42,7 @@ exports.homepageLoggedIn = function(req, res, next) {
         return next();
     }
 
-    if ('develop' === process.env.NODE_ENV) {
-        res.redirect('/login')
-    } else {
-        res.redirect('/roadmap');
-    }
+    res.redirect('/roadmap');
 };
 
 exports.isLoggedIn = function(req, res, next) {
