@@ -6,7 +6,7 @@ exports.login = function(req, res){
 };
 
 exports.loginFail = function (req, res) {
-    res.render('loginFail');    
+    res.render('loginFail');
 };
 
 exports.signup = function(req, res){
@@ -36,6 +36,14 @@ exports.updateProfile = function(req, res) {
 
     User.setSpend(userId.toString(), newSpend, callback);
 }
+
+exports.homepageLoggedIn = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/roadmap');
+};
 
 exports.isLoggedIn = function(req, res, next) {
     if (req.isAuthenticated()) {

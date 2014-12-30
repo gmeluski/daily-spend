@@ -58,53 +58,59 @@ app.use(passport.session());
 app.use(app.router);
 
 // development only
-if ('development' == app.get('env')) {
+if ('develop' == process.env.NODE_ENV) {
   app.use(express.errorHandler());
 }
 
-app.get('/', user.isLoggedIn, spend.index);
+// connect to mongoose
+mongoose.connect(process.env.MONGOHQ_URL);
+
+
+// development level routes
+if ('develop' === process.env.NODE_ENV) {
+    homepagePath = spend.index;
+
+    // signup routes
+    app.get('/signup', user.signup);
+    app.get('/signup-fail', user.signupFail);
+    app.post('/signup',
+        passport.authenticate('local-signup',
+        {
+            successRedirect: '/',
+            failureRedirect: '/signup-fail',
+            failureFlash: true
+        }),
+        function (req, res) {
+            console.log(req);
+            console.log(res);
+    });
+
+
+// prod routes
+} else if ('production' === process.env.NODE_ENV) {
+    homepagePath = spend.roadmap
+}
+
+// universal routes
+app.get('/', user.homepageLoggedIn, homepagePath);
 app.get('/spend', user.isLoggedIn, spend.index);
 app.get('/expense/:amount/:dateString?*', spend.expense);
 app.get('/retrieve/:dateString?*', spend.retrieve);
-app.get('/roadmap', spend.roadmap);
-app.get('/why', spend.why);
-
-// user routes
+app.get('/profile', user.isLoggedIn, user.profile);
+app.post('/profile', user.updateProfile);
 app.get('/login', user.login);
 app.get('/login-fail', user.loginFail);
-app.get('/signup', user.signup);
-app.get('/signup-fail', user.signupFail);
+app.get('/roadmap', spend.roadmap);
+app.get('/why', spend.why);
 app.get('/logout', user.logout);
-app.get('/profile', user.isLoggedIn, user.profile);
-
-mongoose.connect(process.env.MONGOHQ_URL);
 
 app.post('/login',
     passport.authenticate('local-login',
     {
-        successRedirect: '/spend',
-        failureRedirect: '/login-fail',
-    }),
-    function (req, res) {
-
-
-    }
-);
-
-app.post('/signup',
-    passport.authenticate('local-signup',
-    {
         successRedirect: '/',
-        failureRedirect: '/signup-fail',
-        failureFlash: true
-    }),
-    function (req, res) {
-        console.log(req);
-        console.log(res);
-});
-
-app.post('/profile', user.updateProfile);
-
+        failureRedirect: '/login-fail',
+    })
+);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
