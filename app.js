@@ -102,6 +102,7 @@ app.get('/login', user.login);
 app.get('/login-fail', user.loginFail);
 app.get('/roadmap', spend.roadmap);
 app.get('/why', spend.why);
+app.get('/landing', spend.landing);
 app.get('/logout', user.logout);
 
 app.post('/login',

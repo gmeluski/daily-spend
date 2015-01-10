@@ -12,6 +12,10 @@ exports.why = function(req, res) {
     res.render('why', { title: 'Why Daily Spend' });
 };
 
+exports.landing = function(req, res) {
+    res.render('landing', { title: 'Daily Spend' });
+};
+
 exports.expense = function (req, res) {
     spendModel.writeExpense(req.user._id, req.params, res);
 };
