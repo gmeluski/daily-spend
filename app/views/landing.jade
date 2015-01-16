@@ -1,6 +1,11 @@
 extends bootstrapped
  
 block content
-    .wrap-text
-      h1= title 
-      p Welcome to daily Spend beyotch
+    .container
+      .landing-presentation.text-center
+          h1= title 
+          h2 Track every cent 
+          p Daily Spend is a simple concept - use it to track spending, including cash. Not elaborate or full of bells and whistles, the trick to daily spend is giving your self a reliable system and using it.
+          form.sign-up
+            input(class='form-control' type='email' placeholder='Email' required) 
+            button.btn.btn-lg.btn-primary.btn-block Sign Up
