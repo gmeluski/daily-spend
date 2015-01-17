@@ -10,3 +10,7 @@
     max-width: 330px;
     margin: 0 auto;
 }
+
+.landing-presentation h1 {
+    color: #BE574C;
+}
