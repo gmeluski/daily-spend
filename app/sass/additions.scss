@@ -111,4 +111,23 @@ body, html {
     clear: both;
 }
 
+.sign-up input {
+    position: relative;
+    height: auto;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.landing-presentation {
+    max-width: 330px;
+    margin: 0 auto;
+}
 
+.landing-presentation h1 {
+    color: #BE574C;
+}
+
+.btn-primary {
+    background-image: linear-gradient(to bottom, #337ab7 0%, #265a88 100%);
+}
