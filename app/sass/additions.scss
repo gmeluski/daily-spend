@@ -5,6 +5,7 @@
 }
 
 $primary-color: #be574c;
+$deeper-primary: #7A332B;
 $iphone-portrait: 320px;
 $iphone-landscape: 480px;
 
@@ -125,9 +126,9 @@ body, html {
 }
 
 .landing-presentation h1 {
-    color: #BE574C;
+    color: $primary-color;
 }
 
 .btn-primary {
-    background-image: linear-gradient(to bottom, #337ab7 0%, #265a88 100%);
+    background-image: linear-gradient(to bottom, $primary-color 0%, $deeper-primary 100%);
 }
