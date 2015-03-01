@@ -25,7 +25,7 @@ var Actions = (function (){
         },
 
         getTwoDigits: function (numberToPad) {
-            return ("0" + (numberToPad)).slice(-2)
+            return ("0" + (numberToPad)).slice(-2);
         },
 
         getTimeZoneOffset: function () {
@@ -34,21 +34,27 @@ var Actions = (function (){
         },
 
         getRetrieveUrl: function () {
-            return '/retrieve/' + encodeURIComponent(new Date().toDateString());
+          return '/retrieve/' + encodeURIComponent(new Date().toDateString());
         },
 
         getExpenseUrl: function (expense, timeString) {
-            return '/expense/' + expense + '/' + encodeURI(timeString);
+          return '/expense/' + expense + '/' + encodeURI(timeString);
         },
 
         killOverlay: function ($overlay) {
           $overlay.hide();
           $overlay.off('click');
           $overlay.find('.centered').off('click');
-        }
+        },
+
+        saveLead: function (leadEmail) {
+          $.post('/leads/', { email: leadEmail }, function (returnHtml) {
+            $('.messaging').html(returnHtml);
+          });
+        },
     };
 
-    return Actions
+    return Actions;
 }());
 
 if (typeof module !== 'undefined') {
