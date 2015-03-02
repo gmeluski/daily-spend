@@ -102,6 +102,7 @@ app.get('/login', user.login);
 app.get('/login-fail', user.loginFail);
 app.get('/roadmap', spend.roadmap);
 app.get('/why', spend.why);
+app.get('/landing', spend.landing);
 app.get('/logout', user.logout);
 
 app.post('/login',
@@ -111,6 +112,8 @@ app.post('/login',
         failureRedirect: '/login-fail',
     })
 );
+
+app.post('/leads', spend.leads);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

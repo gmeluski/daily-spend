@@ -25,4 +25,10 @@ $(document).ready(function () {
         $('.block.overlay').hide();
     });
 
+    $('.sign-up').on('submit', function (event) {
+      event.preventDefault();
+      var userEmail = $(this).find('input').val();
+      actions.saveLead(userEmail);
+    });
+
 });

@@ -5,6 +5,7 @@
 }
 
 $primary-color: #be574c;
+$deeper-primary: #7A332B;
 $iphone-portrait: 320px;
 $iphone-landscape: 480px;
 
@@ -111,4 +112,26 @@ body, html {
     clear: both;
 }
 
+.sign-up input {
+    position: relative;
+    height: auto;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.landing-presentation {
+    max-width: 330px;
+    margin: 0 auto;
+}
 
+.landing-presentation h1 {
+    color: $primary-color;
+}
+
+.btn-primary {
+    background-image: linear-gradient(to bottom, $primary-color 0%, $deeper-primary 100%);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: $deeper-primary;
+}
