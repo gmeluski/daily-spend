@@ -8,7 +8,7 @@ var http = require('http');
 var path = require('path');
 var passport = require('passport');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(express)
+var MongoStore = require('connect-mongo')(express);
 
 var conf = {
   db: {
@@ -88,7 +88,7 @@ if ('develop' === process.env.NODE_ENV) {
 
 // prod routes
 } else if ('production' === process.env.NODE_ENV) {
-    homepagePath = spend.roadmap
+    homepagePath = spend.landing;
 }
 
 // universal routes
