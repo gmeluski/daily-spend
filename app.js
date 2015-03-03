@@ -1,5 +1,6 @@
 /**
  * Module dependencies.
+ * test
  */
 
 var flash = require('connect-flash');
