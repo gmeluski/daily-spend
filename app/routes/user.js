@@ -42,7 +42,7 @@ exports.homepageLoggedIn = function(req, res, next) {
         return next();
     }
 
-    res.redirect('/roadmap');
+    res.redirect('/landing');
 };
 
 exports.isLoggedIn = function(req, res, next) {
