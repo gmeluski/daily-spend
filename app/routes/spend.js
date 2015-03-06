@@ -29,7 +29,7 @@ exports.leads = function (req, res) {
       return handleError(err);
     }
 
-   res.send('it worked');
+   res.send('Great! We\'ll contact you when it\'s ready!');
   });
 
 };
