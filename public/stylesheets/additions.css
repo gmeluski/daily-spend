@@ -96,6 +96,10 @@ body, html {
 .landing-presentation h1 {
   color: #be574c; }
 
+.messaging {
+  display: none;
+  text-align: center; }
+
 .btn-primary {
   background-image: linear-gradient(to bottom, #be574c 0%, #7A332B 100%); }
 
