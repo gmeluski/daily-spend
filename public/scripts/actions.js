@@ -49,7 +49,7 @@ var Actions = (function (){
 
         saveLead: function (leadEmail) {
           $.post('/leads/', { email: leadEmail }, function (returnHtml) {
-            $('.messaging').html(returnHtml);
+            $('.messaging').html(returnHtml).show();
           });
         },
     };
