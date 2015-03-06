@@ -35,7 +35,7 @@ exports.updateProfile = function(req, res) {
     };
 
     User.setSpend(userId.toString(), newSpend, callback);
-}
+};
 
 exports.homepageLoggedIn = function(req, res, next) {
     if (req.isAuthenticated()) {
@@ -50,5 +50,5 @@ exports.isLoggedIn = function(req, res, next) {
         return next();
     }
 
-    res.redirect('/login')
+    res.redirect('/login');
 };
