@@ -13,12 +13,7 @@ var MongoStore = require('connect-mongo')(express);
 
 var conf = {
   db: {
-    db: process.env.MONGODB,
-    host: process.env.MONGOHOST,
-    port: process.env.MONGOPORT,  // optional, default: 27017
-    username: process.env.MONGOUSER, // optional
-    password: process.env.MONGOPASS, // optional
-    collection: 'mySessions' // optional, default: sessions
+    url: process.env.MONGODB_URI,
   }
 };
 
