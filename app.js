@@ -61,8 +61,7 @@ if ('develop' == process.env.NODE_ENV) {
 }
 
 // connect to mongoose
-console.log(process.env.MONGOHQ_URL);
-mongoose.connect(process.env.MONGOHQ_URL);
+mongoose.connect(process.env.MONGODB_URI);
 
 
 // development level routes
