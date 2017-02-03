@@ -53,18 +53,21 @@ app.use(passport.session());
 
 app.use(app.router);
 
+var homepagePath;
+
 // development only
 if ('develop' == process.env.NODE_ENV) {
   app.use(express.errorHandler());
 }
 
 // connect to mongoose
+console.log(process.env.MONGOHQ_URL);
 mongoose.connect(process.env.MONGOHQ_URL);
 
 
 // development level routes
 if ('develop' === process.env.NODE_ENV) {
-    homepagePath = spend.index;
+    var homepagePath = spend.index;
 
     // signup routes
     app.get('/signup', user.signup);
