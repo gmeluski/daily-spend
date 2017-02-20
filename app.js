@@ -53,20 +53,18 @@ app.use(passport.session());
 
 app.use(app.router);
 
-var homepagePath;
-
 // development only
 if ('develop' == process.env.NODE_ENV) {
   app.use(express.errorHandler());
 }
 
 // connect to mongoose
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI)
 
 
 // development level routes
 if ('develop' === process.env.NODE_ENV) {
-    var homepagePath = spend.index;
+    homepagePath = spend.index;
 
     // signup routes
     app.get('/signup', user.signup);
@@ -102,6 +100,8 @@ app.get('/roadmap', spend.roadmap);
 app.get('/why', spend.why);
 app.get('/landing', spend.landing);
 app.get('/logout', user.logout);
+
+// get this working with a simple route
 
 app.post('/login',
     passport.authenticate('local-login',
